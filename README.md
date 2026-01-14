@@ -1,5 +1,5 @@
 <p align="right">
-  <a href="README_en.md">English</a> | 中文说明
+  English | <a href="README_zh.md">中文说明</a>
 </p>
 
 <p align="center">
@@ -9,15 +9,15 @@
 <h1 align="center">AI Arena</h1>
 
 <p align="center">
-  <strong>同时向多个 AI 发送问题，分屏对比回答</strong>
+  <strong>Send questions to multiple AIs simultaneously and compare answers in split-screen</strong>
 </p>
 
 <p align="center">
-  <a href="#功能特性">功能特性</a> •
-  <a href="#安装方法">安装方法</a> •
-  <a href="#使用说明">使用说明</a> •
-  <a href="#截图展示">截图展示</a> •
-  <a href="#技术实现">技术实现</a>
+  <a href="#features">Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#screenshot">Screenshots</a> •
+  <a href="#tech-stack">Technical Stack</a>
 </p>
 
 <p align="center">
@@ -28,160 +28,160 @@
 
 ---
 
-## 📖 简介
+## 📖 Introduction
 
-**AI Arena** 是一款 Chrome/Edge 浏览器扩展，让你可以同时向 ChatGPT、Gemini、Claude、Grok、DeepSeek 和元宝发送同一个问题，并在分屏界面中对比它们的回答。
+**AI Arena** is a Chrome/Edge browser extension that allows you to send the same question to ChatGPT, Gemini, Claude, Grok, DeepSeek, and Yuanbao simultaneously and compare their answers in a split-screen interface.
 
-不再需要手动在多个 AI 网站之间切换，一次提问，多份回答，轻松比较不同 AI 的思路和风格。
+No more manual switching between multiple AI websites. One question, multiple answers, easily compare different AI's thinking and styles.
 
-> ⚠️ **重要说明**：本扩展**不调用任何 API**，而是在一个浏览器标签页中嵌入各 AI 平台的官方网页，实现统一输入和分屏对比。您需要**提前登录**各 AI 平台（ChatGPT、Gemini、Claude）才能正常使用。
+> ⚠️ **Important Note**: This extension **does not call any API**. It embeds the official web pages of each AI platform into a single browser tab to achieve unified input and split-screen comparison. You need to **log in to each AI platform** (ChatGPT, Gemini, Claude, etc.) in advance to use it normally.
 
-## ✨ 功能特性
+## ✨ Features
 
-- 🌐 **官方网页嵌入** - 直接使用各 AI 平台的官方界面，非 API 调用
-- 🎯 **一键分屏** - 在一个标签页中同时显示多个 AI 对话窗口
-- 📝 **统一输入** - 底部统一输入框，一次发送问题到所有 AI
-- 🔄 **实时对比** - 并排查看不同 AI 的回答，直观比较
-- 🎨 **现代 UI** - Apple 风格的亮色设计
-- 🌏 **中英双语** - 自动跟随浏览器语言
-- ⚡ **轻量快速** - 无需后端服务器，纯前端实现
-- 🔒 **隐私安全** - 使用您自己的账号，数据不经过第三方
+- 🌐 **Official Web Embedding** - Directly use the official interfaces of each AI platform, not API calls.
+- 🎯 **One-click Split Screen** - Display multiple AI chat windows simultaneously in one tab.
+- 📝 **Unified Input** - Bottom unified input box, send questions to all AIs at once.
+- 🔄 **Real-time Comparison** - View answers from different AIs side-by-side.
+- 🎨 **Modern UI** - Apple-style light design.
+- 🌏 **Multi-language Support** - Automatically follows browser language settings.
+- ⚡ **Lightweight & Fast** - No backend server required, pure front-end implementation.
+- 🔒 **Privacy & Security** - Use your own account, data does not go through third parties.
 
-## 🤖 支持的 AI
+## 🤖 Supported AIs
 
-| AI | 网站 | 状态 |
+| AI | Website | Status |
 |---|---|---|
-| ChatGPT | chatgpt.com | ✅ 支持 |
-| Gemini | gemini.google.com | ✅ 支持 |
-| Claude | claude.ai | ✅ 支持 |
-| Grok | grok.com | ✅ 支持 |
-| DeepSeek | chat.deepseek.com | ✅ 支持 |
-| 元宝 | yuanbao.tencent.com | ✅ 支持 |
+| ChatGPT | chatgpt.com | ✅ Supported |
+| Gemini | gemini.google.com | ✅ Supported |
+| Claude | claude.ai | ✅ Supported |
+| Grok | grok.com | ✅ Supported |
+| DeepSeek | chat.deepseek.com | ✅ Supported |
+| Yuanbao | yuanbao.tencent.com | ✅ Supported |
 
-## 📦 安装方法
+## 📦 Installation
 
-### 方法一：开发者模式加载（推荐）
+### Method 1: Load Unpacked (Recommended)
 
-1. 下载或克隆本仓库
+1. Download or clone this repository
    ```bash
    git clone https://github.com/jiangjiren/AI-Arena.git
    ```
 
-2. 打开 Chrome 扩展管理页面
-   - 地址栏输入 `chrome://extensions/`
-   - 或点击菜单 → 更多工具 → 扩展程序
+2. Open Chrome Extension management page
+   - Enter `chrome://extensions/` in the address bar
+   - Or click Menu → More Tools → Extensions
 
-3. 开启「开发者模式」（右上角开关）
+3. Enable "Developer mode" (top right corner)
 
-4. 点击「加载已解压的扩展程序」
+4. Click "Load unpacked"
 
-5. 选择项目文件夹
+5. Select the project folder
 
-### 方法二：打包安装
+### Method 2: Packaged Installation
 
-1. 在扩展管理页面点击「打包扩展程序」
-2. 选择项目目录，生成 `.crx` 文件
-3. 将 `.crx` 文件拖入扩展管理页面安装
+1. Click "Pack extension" in the extension management page
+2. Select the project directory to generate a `.crx` file
+3. Drag the `.crx` file into the extension management page to install
 
-## 🚀 使用说明
+## 🚀 Usage
 
-### 基本使用
+### Basic Usage
 
-1. **点击扩展图标** - 打开弹出窗口
-2. **选择 AI** - 点击卡片选择要使用的 AI（可多选）
-3. **开始对话** - 点击「开始多 AI 对话」按钮
-4. **输入问题** - 在底部输入框输入问题，按 Enter 或点击发送
-5. **对比回答** - 查看各个 AI 的回答
+1. **Click extension icon** - Open the popup window
+2. **Select AI** - Click cards to select AIs (multiple selection supported)
+3. **Start Conversation** - Click the "Start AI Arena" button
+4. **Input Question** - Type your question in the bottom input box, press Enter or click send
+5. **Compare Answers** - View answers from each AI
 
-### 快捷操作
+### Shortcut Operations
 
-| 操作 | 说明 |
+| Shortcut | Description |
 |---|---|
-| `Enter` | 发送消息 |
-| `Shift + Enter` | 换行 |
-| 刷新按钮 | 刷新单个 AI 页面 |
-| 主页按钮 | 返回 AI 首页 |
-| 新窗口按钮 | 在新标签页打开 |
-| 眼睛按钮 | 隐藏/显示原生输入框 |
+| `Enter` | Send message |
+| `Shift + Enter` | New line |
+| Refresh Button | Refresh individual AI page |
+| Home Button | Return to AI home page |
+| New Tab Button | Open in a new tab |
+| Eye Button | Hide/Show native input field |
 
-### ⚠️ 使用前提
+### ⚠️ Prerequisites
 
-> **重要**：本扩展通过嵌入 AI 平台的官方网页来工作，而非调用 API。
+> **Important**: This extension works by embedding the official web pages of AI platforms, not by calling APIs.
 
-在使用本扩展之前，请确保：
+Before using this extension, please ensure:
 
-1. **已登录各 AI 平台** - 请在浏览器中分别访问并登录：
-   - [ChatGPT](https://chatgpt.com) - 需要 OpenAI 账号
-   - [Gemini](https://gemini.google.com) - 需要 Google 账号
-   - [Claude](https://claude.ai) - 需要 Anthropic 账号
-   - [Grok](https://grok.com) - 需要 X (Twitter) 账号
-   - [DeepSeek](https://chat.deepseek.com) - 需要 DeepSeek 账号
-   - [元宝](https://yuanbao.tencent.com) - 需要 腾讯 账号
+1. **Logged in to each AI platform** - Please visit and log in to:
+   - [ChatGPT](https://chatgpt.com) - OpenAI account required
+   - [Gemini](https://gemini.google.com) - Google account required
+   - [Claude](https://claude.ai) - Anthropic account required
+   - [Grok](https://grok.com) - X (Twitter) account required
+   - [DeepSeek](https://chat.deepseek.com) - DeepSeek account required
+   - [Yuanbao](https://yuanbao.tencent.com) - Tencent account required
 
-2. **保持登录状态** - 扩展会使用您浏览器中的登录状态
+2. **Maintain login status** - The extension uses the login state in your browser.
 
-3. **注意使用限制** - 各 AI 平台可能有自己的使用配额和速率限制
+3. **Usage limits** - Each AI platform may have its own usage quotas and rate limits.
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 ai-arena/
-├── manifest.json          # 扩展配置文件
-├── _locales/              # 国际化文件
-│   ├── zh_CN/            # 中文
-│   └── en/               # 英文
-├── icons/                 # 图标资源
+├── manifest.json          # Extension configuration
+├── _locales/              # Internationalization files
+│   ├── zh_CN/            # Chinese
+│   └── en/               # English
+├── icons/                 # Icon resources
 ├── src/
-│   ├── popup/            # 弹出窗口
+│   ├── popup/            # Popup window
 │   │   ├── index.html
 │   │   ├── style.css
 │   │   └── popup.js
-│   ├── split/            # 分屏页面
+│   ├── split/            # Split-screen page
 │   │   ├── split.html
 │   │   ├── split.css
 │   │   └── split.js
-│   ├── content/          # 内容脚本
+│   ├── content/          # Content scripts
 │   │   └── unified.js
-│   └── background/       # 后台脚本
+│   └── background/       # Background script
 │       └── service-worker.js
 └── README.md
 ```
 
-## 🛠 技术实现
+## 🛠 Technical Stack
 
-- **Manifest V3** - 最新的 Chrome 扩展标准
-- **官方网页嵌入** - 通过 iframe 嵌入各 AI 平台的官方网页（非 API 调用）
-- **DeclarativeNetRequest** - 修改响应头以允许 iframe 嵌入
-- **Content Scripts** - 注入脚本实现消息同步发送
-- **纯 JavaScript** - 无需框架，轻量高效
-- **Chrome i18n API** - 国际化支持
-- **PostMessage** - iframe 通信
-- **CSS Variables** - 主题变量系统
+- **Manifest V3** - The latest Chrome extension standard.
+- **Official Web Embedding** - Embed official web pages via iframe (not API calls).
+- **DeclarativeNetRequest** - Modify response headers to allow iframe embedding.
+- **Content Scripts** - Injected scripts to achieve synchronous message sending.
+- **Pure JavaScript** - No frameworks, lightweight and efficient.
+- **Chrome i18n API** - Internationalization support.
+- **PostMessage** - iframe communication.
+- **CSS Variables** - Theme variable system.
 
-## 🌐 国际化
+## 🌐 Internationalization
 
-插件支持中英双语，会自动跟随浏览器语言设置：
+The extension supports Chinese and English, automatically following your browser's language settings:
 
-- 中文 (`zh_CN`) - 默认
+- Chinese (`zh_CN`) - Default
 - English (`en`)
 
-如需添加更多语言，请参考 `_locales/` 目录下的文件格式。
+To add more languages, please refer to the format in the `_locales/` directory.
 
-## 🤝 贡献
+## 🤝 Contribution
 
-欢迎提交 Issue 和 Pull Request！
+Issue and Pull Requests are welcome!
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 提交 Pull Request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 致谢
+## 🙏 Acknowledgements
 
 - [ChatGPT](https://chatgpt.com) - OpenAI
 - [Gemini](https://gemini.google.com) - Google

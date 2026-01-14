@@ -1,3 +1,7 @@
+<p align="right">
+  <a href="README_en.md">English</a> | 中文说明
+</p>
+
 <p align="center">
   <img src="icons/icon128.png" alt="AI Arena Logo" width="128" height="128">
 </p>

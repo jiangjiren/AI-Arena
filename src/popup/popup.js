@@ -5,12 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const openSplitBtn = document.getElementById('open-split-btn');
   const statusDiv = document.getElementById('status');
 
-  const siteOrder = ['chatgpt', 'gemini', 'claude'];
+  const siteOrder = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao'];
 
   const controlButtons = {
     chatgpt: document.getElementById('btnToggleChatGPT'),
     gemini: document.getElementById('btnToggleGemini'),
-    claude: document.getElementById('btnToggleClaude')
+    claude: document.getElementById('btnToggleClaude'),
+    grok: document.getElementById('btnToggleGrok'),
+    deepseek: document.getElementById('btnToggleDeepSeek'),
+    yuanbao: document.getElementById('btnToggleYuanbao')
   };
 
   function getSelectedAIs() {
@@ -47,6 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (selected.has(key)) {
         selected.delete(key);
       } else {
+        if (selected.size >= 3) {
+           setStatus(chrome.i18n.getMessage('maxSelectionError') || '最多只能选择 3 个 AI', 'error');
+           return;
+        }
         selected.add(key);
       }
       saveSelection(siteOrder.filter(site => selected.has(site)));

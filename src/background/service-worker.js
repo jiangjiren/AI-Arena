@@ -79,6 +79,70 @@ chrome.runtime.onInstalled.addListener(async () => {
             urlFilter: '|https://accounts.google.com/*',
             resourceTypes: ['main_frame', 'sub_frame']
           }
+        },
+        {
+          id: 5,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'grok.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 6,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'x.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 7,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'deepseek.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 8,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'yuanbao.tencent.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
         }
       ]
     });

@@ -24,6 +24,21 @@ const AI_CONFIGS = {
         hostnames: ['claude.ai'],
         inputSelector: 'div[contenteditable="true"].ProseMirror, div[contenteditable="true"]',
         buttonSelector: 'button[aria-label*="Send"]:not([disabled]), button[type="submit"]:not([disabled])'
+    },
+    grok: {
+        hostnames: ['grok.com', 'x.com'],
+        inputSelector: 'textarea, div[contenteditable="true"]',
+        buttonSelector: 'button[aria-label*="Send"], button[data-testid*="send"], button[aria-label*="Grok"]'
+    },
+    deepseek: {
+        hostnames: ['chat.deepseek.com'],
+        inputSelector: 'textarea#chat-input, textarea._27c9245.ds-scroll-area, textarea[placeholder*="DeepSeek"]',
+        buttonSelector: 'div[role="button"] .ds-icon > svg path[d*="8.3125 0.981587"], div[role="button"]:has(svg path[d*="14.707 6.83608"]), div[class*="ds-icon-button"]'
+    },
+    yuanbao: {
+        hostnames: ['yuanbao.tencent.com'],
+        inputSelector: '.ql-editor[contenteditable="true"], #search-bar .ql-editor',
+        buttonSelector: '#yuanbao-send-btn, .style__send-btn___RwTm5, span.icon-send'
     }
 };
 
@@ -93,6 +108,23 @@ function resolveHideTarget(site, inputElement) {
             candidates.push(richTextarea.parentElement);
         }
         candidates.push(richTextarea);
+    }
+
+    if (site === 'deepseek') {
+        candidates.push(
+            document.querySelector('._871cbca'), // User provided outermost container
+            document.querySelector('.ec4f5d61'),
+            document.querySelector('.aaff8b8f'),
+            inputElement.closest('._871cbca')
+        );
+    }
+
+    if (site === 'yuanbao') {
+        candidates.push(
+            document.querySelector('.style__text-area___JRVgQ'), // User provided container
+            inputElement.closest('.style__text-area___JRVgQ'),
+            document.querySelector('.agent-input-text-area')
+        );
     }
 
     candidates.push(

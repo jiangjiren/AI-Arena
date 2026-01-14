@@ -30,25 +30,26 @@ h2 {
 /* Tab Bar - Segmented Control Style */
 .tab-bar {
   display: flex;
-  gap: 4px;
-  margin-bottom: 28px;
+  flex-wrap: wrap; /* Allow wrapping to next line */
+  gap: 8px; /* Increase gap slightly for better separation between rows */
+  margin-bottom: 24px;
   /* iOS Segmented Control Background */
   background: #E5E5EA;
-  padding: 4px;
-  border-radius: 12px;
+  padding: 8px; /* Increase padding */
+  border-radius: 16px; /* Slightly larger border radius */
 }
 
 .tab-item {
-  flex: 1;
+  flex: 0 0 calc(33.333% - 6px); /* 3 items per row, accounting for gap */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 4px;
+  padding: 12px 4px; /* Slightly more vertical padding */
   background: transparent;
   border: none;
-  border-radius: 9px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;

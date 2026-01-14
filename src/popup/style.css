@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  /* iOS Light Mode Background */
+  background: #F2F2F7;
+  color: #1C1C1E;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 320px;
+  padding: 24px 20px;
+}
+
+h2 {
+  color: #000;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+/* Tab Bar - Segmented Control Style */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  /* iOS Segmented Control Background */
+  background: #E5E5EA;
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 4px;
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover State */
+.tab-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Active State - Card Look */
+.tab-item.active {
+  background: #FFFFFF;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Specific Active Colors (Optional: Subtle tints) */
+.tab-item.active[data-site="chatgpt"] {
+  /* Subtle Green Tint or keep White */
+  /* background: #FFFFFF; */
+}
+
+.tab-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  opacity: 0.5;
+  filter: grayscale(100%);
+  transition: all 0.25s ease;
+}
+
+.tab-item.active .tab-icon {
+  opacity: 1;
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+.tab-item:hover .tab-icon {
+  opacity: 0.7;
+}
+
+.tab-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #8E8E93;
+  transition: color 0.25s ease;
+}
+
+.tab-item.active .tab-label {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Action Section */
+.action-section {
+  text-align: center;
+  padding: 0 4px;
+}
+
+/* Primary Button - High Contrast Black */
+.primary-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: #000000;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  letter-spacing: -0.01em;
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-btn:hover {
+  background: #333333;
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.primary-btn:active {
+  transform: scale(0.98);
+  background: #000000;
+}
+
+.hint {
+  color: #8E8E93;
+  font-size: 12px;
+  margin-top: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Status */
+#status {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #8E8E93;
+  min-height: 18px;
+  transition: opacity 0.2s;
+}
+
+#status.success {
+  color: #34C759;
+  /* iOS Green Light Mode */
+}
+
+#status.error {
+  color: #FF3B30;
+  /* iOS Red Light Mode */
+}

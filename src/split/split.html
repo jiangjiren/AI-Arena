@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extensionName">AI Arena</title>
+  <link rel="stylesheet" href="split.css">
+</head>
+
+<body>
+  <div class="split-container" id="splitContainer"></div>
+
+  <!-- 底部统一输入框 -->
+  <div class="unified-input-bar" id="unifiedInputBar">
+    <div class="input-wrapper">
+      <textarea id="unifiedInput" data-i18n-placeholder="inputPlaceholder" placeholder="输入消息,同时发送到所有 AI..."
+        rows="1"></textarea>
+      <button id="sendBtn" class="send-btn" data-i18n-title="sendTooltip" title="发送到所有 AI">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="split.js"></script>
+</body>
+
+</html>

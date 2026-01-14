@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title data-i18n="popupTitle">AI Arena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2 data-i18n="popupTitle">AI Arena</h2>
+
+    <div class="tab-bar" aria-label="AI选择器">
+      <button class="tab-item" id="btnToggleChatGPT" data-site="chatgpt">
+        <img src="../../icons/chatgpt.png" alt="ChatGPT" class="tab-icon">
+        <span class="tab-label" data-i18n="chatgpt">ChatGPT</span>
+      </button>
+      <button class="tab-item" id="btnToggleGemini" data-site="gemini">
+        <img src="../../icons/gemini.png" alt="Gemini" class="tab-icon">
+        <span class="tab-label" data-i18n="gemini">Gemini</span>
+      </button>
+      <button class="tab-item" id="btnToggleClaude" data-site="claude">
+        <img src="../../icons/claude.png" alt="Claude" class="tab-icon">
+        <span class="tab-label" data-i18n="claude">Claude</span>
+      </button>
+    </div>
+
+    <div class="action-section">
+      <button id="open-split-btn" class="primary-btn" data-i18n="startButton">
+        开始多 AI 对话
+      </button>
+      <p class="hint" data-i18n="hintText">同时向已选 AI 发送问题，对比回答</p>
+    </div>
+
+    <div id="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

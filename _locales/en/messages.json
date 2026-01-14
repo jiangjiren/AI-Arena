@@ -1,0 +1,78 @@
+{
+    "extensionName": {
+        "message": "AI Arena",
+        "description": "Extension name"
+    },
+    "extensionDescription": {
+        "message": "Send prompts to ChatGPT, Gemini, and Claude simultaneously with split-screen comparison.",
+        "description": "Extension description"
+    },
+    "popupTitle": {
+        "message": "AI Arena",
+        "description": "Popup page title"
+    },
+    "startButton": {
+        "message": "Start Multi-AI Chat",
+        "description": "Start multi-AI chat button"
+    },
+    "hintText": {
+        "message": "Send questions to selected AIs and compare answers",
+        "description": "Hint text below start button"
+    },
+    "inputPlaceholder": {
+        "message": "Type a message to send to all AIs...",
+        "description": "Unified input placeholder"
+    },
+    "sendTooltip": {
+        "message": "Send to all AIs",
+        "description": "Send button tooltip"
+    },
+    "emptyTitle": {
+        "message": "Select AIs to Start",
+        "description": "Empty state title"
+    },
+    "emptyDescription": {
+        "message": "Choose at least one AI above to begin your conversation",
+        "description": "Empty state description"
+    },
+    "chatgpt": {
+        "message": "ChatGPT",
+        "description": "ChatGPT label"
+    },
+    "gemini": {
+        "message": "Gemini",
+        "description": "Gemini label"
+    },
+    "claude": {
+        "message": "Claude",
+        "description": "Claude label"
+    },
+    "reload": {
+        "message": "Reload",
+        "description": "Reload button tooltip"
+    },
+    "openInNewTab": {
+        "message": "Open in New Tab",
+        "description": "Open in new tab tooltip"
+    },
+    "toggleInput": {
+        "message": "Toggle Native Input",
+        "description": "Toggle native input tooltip"
+    },
+    "sentNotification": {
+        "message": "Message sent to all AIs",
+        "description": "Message sent notification"
+    },
+    "pleaseEnterContent": {
+        "message": "Please enter content",
+        "description": "Please enter content message"
+    },
+    "noAIWindowAvailable": {
+        "message": "No AI windows available",
+        "description": "No AI window available message"
+    },
+    "sendFailed": {
+        "message": "Failed to send. Please refresh and try again",
+        "description": "Send failed message"
+    }
+}

@@ -1,0 +1,78 @@
+{
+    "extensionName": {
+        "message": "AI Arena",
+        "description": "Extension name"
+    },
+    "extensionDescription": {
+        "message": "同时向 ChatGPT、Gemini 和 Claude 发送问题，分屏对比回答。",
+        "description": "Extension description"
+    },
+    "popupTitle": {
+        "message": "AI Arena",
+        "description": "Popup page title"
+    },
+    "startButton": {
+        "message": "开始多 AI 对话",
+        "description": "Start multi-AI chat button"
+    },
+    "hintText": {
+        "message": "同时向已选 AI 发送问题，对比回答",
+        "description": "Hint text below start button"
+    },
+    "inputPlaceholder": {
+        "message": "输入消息，同时发送到所有 AI...",
+        "description": "Unified input placeholder"
+    },
+    "sendTooltip": {
+        "message": "发送到所有 AI",
+        "description": "Send button tooltip"
+    },
+    "emptyTitle": {
+        "message": "选择 AI 开始对话",
+        "description": "Empty state title"
+    },
+    "emptyDescription": {
+        "message": "在上方选择至少一个 AI，然后开始你的对话",
+        "description": "Empty state description"
+    },
+    "chatgpt": {
+        "message": "ChatGPT",
+        "description": "ChatGPT label"
+    },
+    "gemini": {
+        "message": "Gemini",
+        "description": "Gemini label"
+    },
+    "claude": {
+        "message": "Claude",
+        "description": "Claude label"
+    },
+    "reload": {
+        "message": "刷新",
+        "description": "Reload button tooltip"
+    },
+    "openInNewTab": {
+        "message": "在新标签页打开",
+        "description": "Open in new tab tooltip"
+    },
+    "toggleInput": {
+        "message": "切换原生输入框",
+        "description": "Toggle native input tooltip"
+    },
+    "sentNotification": {
+        "message": "消息已发送到所有 AI",
+        "description": "Message sent notification"
+    },
+    "pleaseEnterContent": {
+        "message": "请输入内容",
+        "description": "Please enter content message"
+    },
+    "noAIWindowAvailable": {
+        "message": "没有可用的 AI 对话窗口",
+        "description": "No AI window available message"
+    },
+    "sendFailed": {
+        "message": "发送失败，请刷新页面重试",
+        "description": "Send failed message"
+    }
+}

@@ -78,5 +78,17 @@
     "hideNativeInputs": {
         "message": "隐藏各家 AI 的输入框",
         "description": "Checkbox label to hide native inputs"
+    },
+    "doubao": {
+        "message": "豆包",
+        "description": "Doubao label"
+    },
+    "qwen": {
+        "message": "千问",
+        "description": "Qwen label"
+    },
+    "kimi": {
+        "message": "Kimi",
+        "description": "Kimi label"
     }
 }

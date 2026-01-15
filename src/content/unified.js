@@ -39,6 +39,21 @@ const AI_CONFIGS = {
         hostnames: ['yuanbao.tencent.com'],
         inputSelector: '.ql-editor[contenteditable="true"], #search-bar .ql-editor',
         buttonSelector: '#yuanbao-send-btn, .style__send-btn___RwTm5, span.icon-send'
+    },
+    doubao: {
+        hostnames: ['www.doubao.com', 'doubao.com'],
+        inputSelector: 'textarea.semi-input-textarea',
+        buttonSelector: 'button#flow-end-msg-send, button[aria-label="发送"]'
+    },
+    qwen: {
+        hostnames: ['chat.qwen.ai', 'qwen.ai'],
+        inputSelector: '#chat-input, textarea#chat-input',
+        buttonSelector: '.omni-button-content-btn, button[aria-label*="发送"], button[aria-label*="Send"]'
+    },
+    kimi: {
+        hostnames: ['kimi.com', 'www.kimi.com', 'kimi.moonshot.cn'],
+        inputSelector: '.chat-input-editor, div[contenteditable="true"].chat-input-editor',
+        buttonSelector: '.send-button-container:not(.disabled), div.send-button-container:not(.disabled)'
     }
 };
 
@@ -124,6 +139,34 @@ function resolveHideTarget(site, inputElement) {
             document.querySelector('.style__text-area___JRVgQ'), // User provided container
             inputElement.closest('.style__text-area___JRVgQ'),
             document.querySelector('.agent-input-text-area')
+        );
+    }
+
+    if (site === 'doubao') {
+        candidates.push(
+            document.querySelector('[data-testid="chat_input"]'),
+            inputElement.closest('[data-testid="chat_input"]'),
+            inputElement.closest('.container-SrVXPg'),
+            document.querySelector('.container-SrVXPg')
+        );
+    }
+
+    if (site === 'qwen') {
+        candidates.push(
+            document.querySelector('.chat-layout-input-container'),
+            inputElement.closest('.chat-layout-input-container'),
+            document.querySelector('.chat-message-input'),
+            inputElement.closest('.chat-message-input'),
+            inputElement.closest('.prompt-input-container')
+        );
+    }
+
+    if (site === 'kimi') {
+        candidates.push(
+            document.querySelector('.chat-editor'),
+            inputElement.closest('.chat-editor'),
+            inputElement.closest('.chat-input'),
+            document.querySelector('.chat-input')
         );
     }
 
@@ -297,6 +340,9 @@ function simulateTyping(element, text, site) {
         return;
     }
 
+    // 对于 Kimi 的 Lexical 编辑器，不做特殊处理，使用通用的contenteditable逻辑
+    // Lexical编辑器应该能正确处理execCommand('insertText')
+
     // 清空现有内容
     if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
         element.value = '';
@@ -320,11 +366,17 @@ function simulateTyping(element, text, site) {
         document.execCommand('insertText', false, text);
 
         // 触发 input 事件
-        element.dispatchEvent(new InputEvent('input', {
-            bubbles: true,
-            inputType: 'insertText',
-            data: text
-        }));
+        // 注意：对于Kimi的Lexical编辑器，不能传入data，否则会导致文本重复
+        if (site === 'kimi') {
+            // Kimi使用Lexical编辑器，execCommand已经处理了输入，只需触发简单的input事件
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+        } else {
+            element.dispatchEvent(new InputEvent('input', {
+                bubbles: true,
+                inputType: 'insertText',
+                data: text
+            }));
+        }
     } else {
         // 对于 input/textarea
         try {
@@ -412,8 +464,9 @@ async function inputAndSend(message, retry = false) {
 
         console.log('=== 文本已输入:', message);
 
-        // 等待编辑器处理输入
-        await new Promise(r => setTimeout(r, 500));
+        // 等待编辑器处理输入（Kimi的Lexical编辑器需要更长时间）
+        const waitTime = site === 'kimi' ? 800 : 500;
+        await new Promise(r => setTimeout(r, waitTime));
 
         // 在 iframe 中（分屏模式），优先使用 Enter 键发送
         // 因为 iframe 中 click() 可能因跨域限制无法正常工作

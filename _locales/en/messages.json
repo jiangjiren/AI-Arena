@@ -78,5 +78,17 @@
     "hideNativeInputs": {
         "message": "Hide native input boxes",
         "description": "Checkbox label to hide native inputs"
+    },
+    "doubao": {
+        "message": "Doubao",
+        "description": "Doubao label"
+    },
+    "qwen": {
+        "message": "Qwen",
+        "description": "Qwen label"
+    },
+    "kimi": {
+        "message": "Kimi",
+        "description": "Kimi label"
     }
 }

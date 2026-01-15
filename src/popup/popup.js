@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const openSplitBtn = document.getElementById('open-split-btn');
   const statusDiv = document.getElementById('status');
 
-  const siteOrder = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao'];
+  const siteOrder = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao', 'doubao', 'qwen', 'kimi'];
 
   const controlButtons = {
     chatgpt: document.getElementById('btnToggleChatGPT'),
@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     claude: document.getElementById('btnToggleClaude'),
     grok: document.getElementById('btnToggleGrok'),
     deepseek: document.getElementById('btnToggleDeepSeek'),
-    yuanbao: document.getElementById('btnToggleYuanbao')
+    yuanbao: document.getElementById('btnToggleYuanbao'),
+    doubao: document.getElementById('btnToggleDoubao'),
+    qwen: document.getElementById('btnToggleQwen'),
+    kimi: document.getElementById('btnToggleKimi')
   };
 
   function getSelectedAIs() {

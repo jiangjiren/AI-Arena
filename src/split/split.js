@@ -30,6 +30,21 @@ const AI_SITES = {
     name: '元宝',
     url: 'https://yuanbao.tencent.com',
     color: '#ffb800'
+  },
+  doubao: {
+    name: '豆包',
+    url: 'https://www.doubao.com/chat/',
+    color: '#2d5af0'
+  },
+  qwen: {
+    name: '千问',
+    url: 'https://chat.qwen.ai',
+    color: '#6366f1'
+  },
+  kimi: {
+    name: 'Kimi',
+    url: 'https://kimi.com',
+    color: '#00d4ff'
   }
 };
 
@@ -39,7 +54,10 @@ const AI_INPUT_SELECTORS = {
   claude: 'div[contenteditable="true"].ProseMirror, div[contenteditable="true"]',
   grok: 'textarea, div[contenteditable="true"]',
   deepseek: 'textarea#chat-input, textarea._27c9245.ds-scroll-area, textarea[placeholder*="DeepSeek"]',
-  yuanbao: '.ql-editor[contenteditable="true"], #search-bar .ql-editor'
+  yuanbao: '.ql-editor[contenteditable="true"], #search-bar .ql-editor',
+  doubao: 'textarea.semi-input-textarea',
+  qwen: '#chat-input, textarea#chat-input',
+  kimi: '.chat-input-editor, div[contenteditable="true"].chat-input-editor'
 };
 
 const ICONS = {
@@ -52,7 +70,7 @@ const ICONS = {
   keyboardOff: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="6" y1="8" x2="6" y2="8"></line><line x1="10" y1="8" x2="10" y2="8"></line><line x1="14" y1="8" x2="14" y2="8"></line><line x1="7" y1="16" x2="17" y2="16"></line><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
 };
 
-const SITE_ORDER = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao'];
+const SITE_ORDER = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao', 'doubao', 'qwen', 'kimi'];
 const STORAGE_KEYS = {
   selection: 'selectedAIs',
   prompt: 'splitPrompt',

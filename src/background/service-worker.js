@@ -143,6 +143,70 @@ chrome.runtime.onInstalled.addListener(async () => {
             urlFilter: 'yuanbao.tencent.com',
             resourceTypes: ['main_frame', 'sub_frame']
           }
+        },
+        {
+          id: 9,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'doubao.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 10,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'qwen.ai',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 11,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'kimi.com',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
+        },
+        {
+          id: 12,
+          priority: 1,
+          action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+              { header: 'X-Frame-Options', operation: 'remove' },
+              { header: 'Content-Security-Policy', operation: 'remove' },
+              { header: 'X-Content-Type-Options', operation: 'remove' }
+            ]
+          },
+          condition: {
+            urlFilter: 'kimi.moonshot.cn',
+            resourceTypes: ['main_frame', 'sub_frame']
+          }
         }
       ]
     });

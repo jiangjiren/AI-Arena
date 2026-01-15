@@ -23,7 +23,14 @@
     "https://grok.com/*",
     "https://x.com/*",
     "https://chat.deepseek.com/*",
-    "https://yuanbao.tencent.com/*"
+    "https://yuanbao.tencent.com/*",
+    "https://doubao.com/*",
+    "https://www.doubao.com/*",
+    "https://qwen.ai/*",
+    "https://chat.qwen.ai/*",
+    "https://kimi.com/*",
+    "https://www.kimi.com/*",
+    "https://kimi.moonshot.cn/*"
   ],
   "action": {
     "default_popup": "src/popup/index.html",
@@ -41,7 +48,14 @@
         "https://grok.com/*",
         "https://x.com/*",
         "https://chat.deepseek.com/*",
-        "https://yuanbao.tencent.com/*"
+        "https://yuanbao.tencent.com/*",
+        "https://doubao.com/*",
+        "https://www.doubao.com/*",
+        "https://qwen.ai/*",
+        "https://chat.qwen.ai/*",
+        "https://kimi.com/*",
+        "https://www.kimi.com/*",
+        "https://kimi.moonshot.cn/*"
       ],
       "js": [
         "src/content/unified.js"
@@ -62,7 +76,14 @@
         "https://grok.com/*",
         "https://x.com/*",
         "https://chat.deepseek.com/*",
-        "https://yuanbao.tencent.com/*"
+        "https://yuanbao.tencent.com/*",
+        "https://doubao.com/*",
+        "https://www.doubao.com/*",
+        "https://qwen.ai/*",
+        "https://chat.qwen.ai/*",
+        "https://kimi.com/*",
+        "https://www.kimi.com/*",
+        "https://kimi.moonshot.cn/*"
       ]
     }
   ]

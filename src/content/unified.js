@@ -226,10 +226,24 @@ function toggleInputVisibility(hide) {
 }
 
 if (isInIframe) {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startInputHider);
-    } else {
-        startInputHider();
+    try {
+        chrome.storage.local.get(['hideIframeInputs'], (result) => {
+            const shouldHide = result.hideIframeInputs !== undefined ? result.hideIframeInputs : true;
+            if (shouldHide) {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', startInputHider);
+                } else {
+                    startInputHider();
+                }
+            }
+        });
+    } catch (e) {
+        // Fallback if storage access fails (shouldn't happen in extension context)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startInputHider);
+        } else {
+            startInputHider();
+        }
     }
 }
 

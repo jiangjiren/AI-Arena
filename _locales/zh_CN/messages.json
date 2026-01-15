@@ -74,5 +74,9 @@
     "sendFailed": {
         "message": "发送失败，请刷新页面重试",
         "description": "Send failed message"
+    },
+    "hideNativeInputs": {
+        "message": "隐藏各家 AI 的输入框",
+        "description": "Checkbox label to hide native inputs"
     }
 }

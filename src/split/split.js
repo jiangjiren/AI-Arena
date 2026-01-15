@@ -43,11 +43,13 @@ const AI_INPUT_SELECTORS = {
 };
 
 const ICONS = {
-  refresh: `<svg viewBox="0 0 24 24"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>`,
-  openNew: `<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
-  home: `<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
-  eyeOpen: `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
-  eyeClosed: `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
+  refresh: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>`,
+  openNew: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+  // 键盘图标：表示输入框可见
+  keyboard: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="6" y1="8" x2="6" y2="8"></line><line x1="10" y1="8" x2="10" y2="8"></line><line x1="14" y1="8" x2="14" y2="8"></line><line x1="18" y1="8" x2="18" y2="8"></line><line x1="6" y1="12" x2="6" y2="12"></line><line x1="10" y1="12" x2="10" y2="12"></line><line x1="14" y1="12" x2="14" y2="12"></line><line x1="18" y1="12" x2="18" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg>`,
+  // 禁用键盘图标：表示输入框隐藏
+  keyboardOff: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="6" y1="8" x2="6" y2="8"></line><line x1="10" y1="8" x2="10" y2="8"></line><line x1="14" y1="8" x2="14" y2="8"></line><line x1="7" y1="16" x2="17" y2="16"></line><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
 };
 
 const SITE_ORDER = ['chatgpt', 'gemini', 'claude', 'grok', 'deepseek', 'yuanbao'];
@@ -60,6 +62,7 @@ const STORAGE_KEYS = {
 let splitItems = [];
 let lastPromptId = null;
 let hideInputsState = {}; // 记录每个分屏的输入框隐藏状态
+let defaultHideInputs = true; // 默认隐藏输入框
 
 // i18n helper function
 function i18n(key, fallback = '') {
@@ -103,7 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize i18n
   initI18n();
 
-  chrome.storage.local.get([STORAGE_KEYS.selection, STORAGE_KEYS.prompt], (result) => {
+  chrome.storage.local.get([STORAGE_KEYS.selection, STORAGE_KEYS.prompt, STORAGE_KEYS.hideInputs], (result) => {
+    if (result.hideIframeInputs !== undefined) {
+      defaultHideInputs = result.hideIframeInputs;
+    }
     const selected = Array.isArray(result.selectedAIs) ? result.selectedAIs : [];
     applySelection(selected);
 
@@ -243,7 +249,7 @@ function renderSplits() {
             </div>
             <div class="toolbar-right">
                 <button class="toolbar-btn toggle-input" data-id="${item.id}" title="${i18n('toggleInput', '切换原生输入框')}">
-                    ${ICONS.eyeOpen}
+                    ${ICONS.keyboard}
                 </button>
                 <button class="toolbar-btn home" data-id="${item.id}" data-url="${item.url}" title="${i18n('reload', '刷新')}">
                     ${ICONS.home}
@@ -308,7 +314,7 @@ function renderSplits() {
     if (toggleInputBtn) {
       // 初始化状态（默认隐藏）
       if (hideInputsState[id] === undefined) {
-        hideInputsState[id] = true; // 默认隐藏iframe内的输入框
+        hideInputsState[id] = defaultHideInputs; // 默认根据设置隐藏
       }
       updateToggleInputBtn(toggleInputBtn, hideInputsState[id]);
 
@@ -350,6 +356,16 @@ function renderSplits() {
       iframe.addEventListener('load', () => {
         console.log('Iframe loaded:', id);
         loader.style.display = 'none';
+
+        // Apply initial input visibility state
+        try {
+          iframe.contentWindow.postMessage({
+            type: 'TOGGLE_INPUT_VISIBILITY',
+            data: { hide: hideInputsState[id] }
+          }, '*');
+        } catch (e) {
+          console.log('=== Failed to sync input visibility:', e);
+        }
       });
 
       iframe.addEventListener('error', () => {
@@ -363,7 +379,7 @@ function renderSplits() {
 // 更新隐藏/显示输入框按钮的图标
 function updateToggleInputBtn(btn, isHidden) {
   if (!btn) return;
-  btn.innerHTML = isHidden ? ICONS.eyeClosed : ICONS.eyeOpen;
+  btn.innerHTML = isHidden ? ICONS.keyboardOff : ICONS.keyboard;
   btn.title = isHidden ? i18n('toggleInput', '切换原生输入框') : i18n('toggleInput', '切换原生输入框');
   btn.classList.toggle('active', isHidden);
 }

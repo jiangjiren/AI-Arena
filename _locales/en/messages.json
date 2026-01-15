@@ -74,5 +74,9 @@
     "sendFailed": {
         "message": "Failed to send. Please refresh and try again",
         "description": "Send failed message"
+    },
+    "hideNativeInputs": {
+        "message": "Hide native input boxes",
+        "description": "Checkbox label to hide native inputs"
     }
 }

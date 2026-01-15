@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         selected.delete(key);
       } else {
         if (selected.size >= 3) {
-           setStatus(chrome.i18n.getMessage('maxSelectionError') || '最多只能选择 3 个 AI', 'error');
-           return;
+          setStatus(chrome.i18n.getMessage('maxSelectionError') || '最多只能选择 3 个 AI', 'error');
+          return;
         }
         selected.add(key);
       }
@@ -74,13 +74,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 加载保存的选择状态
-  chrome.storage.local.get(['selectedAIs'], (result) => {
+  chrome.storage.local.get(['selectedAIs', 'hideIframeInputs'], (result) => {
     const saved = Array.isArray(result.selectedAIs) ? result.selectedAIs : [];
     if (saved.length > 0) {
       syncSelectionUI(saved);
     } else {
       // 默认选中 ChatGPT 和 Gemini
       saveSelection(['chatgpt', 'gemini']);
+    }
+
+    // Load hide inputs setting
+    const hideInputsCheckbox = document.getElementById('hide-inputs-checkbox');
+    if (hideInputsCheckbox) {
+      if (result.hideIframeInputs !== undefined) {
+        hideInputsCheckbox.checked = result.hideIframeInputs;
+      } else {
+        // Default checked
+        hideInputsCheckbox.checked = true;
+        chrome.storage.local.set({ hideIframeInputs: true });
+      }
+
+      // Add change listener
+      hideInputsCheckbox.addEventListener('change', (e) => {
+        chrome.storage.local.set({ hideIframeInputs: e.target.checked });
+      });
     }
   });
 

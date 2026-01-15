@@ -556,6 +556,12 @@ window.addEventListener('message', async (event) => {
         console.log('=== 收到页面刷新请求，执行 location.reload()');
         window.location.reload();
     }
+
+    // 处理在新标签页打开当前页面的请求
+    if (event.data.type === 'OPEN_IN_NEW_TAB') {
+        console.log('=== 收到新标签页打开请求，当前URL:', window.location.href);
+        window.open(window.location.href, '_blank');
+    }
 });
 
 // 监听来自 background 的消息（用于多窗口模式）

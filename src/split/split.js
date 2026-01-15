@@ -360,8 +360,24 @@ function initSplitElement(element, item) {
   const openNewBtn = element.querySelector('.toolbar-btn.open-new');
   if (openNewBtn) {
     openNewBtn.addEventListener('click', () => {
-      const url = openNewBtn.dataset.url;
-      if (url) window.open(url, '_blank');
+      const iframe = element.querySelector('iframe');
+      if (iframe && iframe.contentWindow) {
+        // 通过 postMessage 通知 iframe 内的 content script 打开当前页面
+        try {
+          iframe.contentWindow.postMessage({
+            type: 'OPEN_IN_NEW_TAB'
+          }, '*');
+        } catch (e) {
+          // 如果发送失败，回退到打开首页
+          console.log('=== 发送新标签页打开消息失败，回退到首页:', e);
+          const url = openNewBtn.dataset.url;
+          if (url) window.open(url, '_blank');
+        }
+      } else {
+        // 如果 iframe 不可用，打开首页
+        const url = openNewBtn.dataset.url;
+        if (url) window.open(url, '_blank');
+      }
     });
   }
 

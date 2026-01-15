@@ -550,6 +550,12 @@ window.addEventListener('message', async (event) => {
         console.log('=== 切换输入框显示状态:', shouldHide ? '隐藏' : '显示');
         toggleInputVisibility(shouldHide);
     }
+
+    // 处理页面刷新请求
+    if (event.data.type === 'RELOAD_PAGE') {
+        console.log('=== 收到页面刷新请求，执行 location.reload()');
+        window.location.reload();
+    }
 });
 
 // 监听来自 background 的消息（用于多窗口模式）

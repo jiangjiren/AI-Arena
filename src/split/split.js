@@ -215,7 +215,7 @@ function applySelection(siteKeys) {
   renderSplits();
 }
 
-// 渲染分屏
+// 渲染分屏（增量更新模式，保留现有iframe不重建）
 function renderSplits() {
   const container = document.getElementById('splitContainer');
 
@@ -235,145 +235,200 @@ function renderSplits() {
     return;
   }
 
-  container.innerHTML = splitItems.map(item => `
-    <div class="split-item" data-id="${item.id}" data-site="${item.siteKey}">
-        <!-- 顶部工具栏 -->
-        <div class="split-toolbar">
-            <div class="toolbar-left">
-                <span class="ai-name" style="--ai-color: ${item.color}">${item.name}</span>
-            </div>
-            <div class="toolbar-center">
-                <button class="toolbar-btn reload" data-id="${item.id}" title="${i18n('reload', '刷新')}">
-                    ${ICONS.refresh}
-                </button>
-            </div>
-            <div class="toolbar-right">
-                <button class="toolbar-btn toggle-input" data-id="${item.id}" title="${i18n('toggleInput', '切换原生输入框')}">
-                    ${ICONS.keyboard}
-                </button>
-                <button class="toolbar-btn home" data-id="${item.id}" data-url="${item.url}" title="${i18n('reload', '刷新')}">
-                    ${ICONS.home}
-                </button>
-                <button class="toolbar-btn open-new" data-url="${item.url}" title="${i18n('openInNewTab', '在新标签页打开')}">
-                    ${ICONS.openNew}
-                </button>
-            </div>
-        </div>
-
-        <div class="split-item-content">
-            <div class="loading-overlay" id="loading-${item.id}">
-                <div class="spinner"></div>
-            </div>
-            <iframe
-                id="iframe-${item.id}"
-                name="${item.siteKey}-iframe"
-                src="${item.url}"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                data-site="${item.siteKey}"
-            ></iframe>
-        </div>
-    </div>
-  `).join('');
-
-  container.querySelectorAll('.split-item').forEach(item => {
-    const id = item.dataset.id;
-
-    // 刷新按钮
-    const reloadBtn = item.querySelector('.toolbar-btn.reload');
-    if (reloadBtn) {
-      reloadBtn.addEventListener('click', () => reloadSplit(id));
-    }
-
-    // 返回首页按钮
-    const homeBtn = item.querySelector('.toolbar-btn.home');
-    if (homeBtn) {
-      homeBtn.addEventListener('click', () => {
-        const url = homeBtn.dataset.url;
-        const iframe = item.querySelector('iframe');
-        const loader = item.querySelector('.loading-overlay');
-        if (iframe && url) {
-          if (loader) loader.style.display = 'flex';
-          iframe.src = url;
-        }
-      });
-    }
-
-    // 新窗口打开按钮
-    const openNewBtn = item.querySelector('.toolbar-btn.open-new');
-    if (openNewBtn) {
-      openNewBtn.addEventListener('click', () => {
-        const url = openNewBtn.dataset.url;
-        if (url) window.open(url, '_blank');
-      });
-    }
-
-    // 隐藏/显示输入框按钮
-    const toggleInputBtn = item.querySelector('.toolbar-btn.toggle-input');
-    if (toggleInputBtn) {
-      // 初始化状态（默认隐藏）
-      if (hideInputsState[id] === undefined) {
-        hideInputsState[id] = defaultHideInputs; // 默认根据设置隐藏
-      }
-      updateToggleInputBtn(toggleInputBtn, hideInputsState[id]);
-
-      toggleInputBtn.addEventListener('click', () => {
-        const iframe = item.querySelector('iframe');
-        if (!iframe) return;
-
-        // 切换状态
-        hideInputsState[id] = !hideInputsState[id];
-        const shouldHide = hideInputsState[id];
-
-        // 更新按钮图标
-        updateToggleInputBtn(toggleInputBtn, shouldHide);
-
-        // 向iframe发送消息
-        try {
-          iframe.contentWindow.postMessage({
-            type: 'TOGGLE_INPUT_VISIBILITY',
-            data: { hide: shouldHide }
-          }, '*');
-        } catch (e) {
-          console.log('=== 发送隐藏输入框消息失败:', e);
-        }
-      });
-    }
-
-    const iframe = item.querySelector('iframe');
-    const loader = item.querySelector('.loading-overlay');
-
-    if (iframe && loader) {
-      try {
-        if (iframe.contentWindow && iframe.contentWindow.document.readyState === 'complete') {
-          loader.style.display = 'none';
-        }
-      } catch (e) {
-        // Cross-origin, ignore
-      }
-
-      iframe.addEventListener('load', () => {
-        console.log('Iframe loaded:', id);
-        loader.style.display = 'none';
-
-        // Apply initial input visibility state
-        try {
-          iframe.contentWindow.postMessage({
-            type: 'TOGGLE_INPUT_VISIBILITY',
-            data: { hide: hideInputsState[id] }
-          }, '*');
-        } catch (e) {
-          console.log('=== Failed to sync input visibility:', e);
-        }
-      });
-
-      iframe.addEventListener('error', () => {
-        console.error('Iframe error:', id);
-        loader.style.display = 'none';
-      });
+  // 获取当前DOM中存在的split-item的siteKey
+  const existingElements = new Map();
+  container.querySelectorAll('.split-item').forEach(el => {
+    const siteKey = el.dataset.site;
+    if (siteKey) {
+      existingElements.set(siteKey, el);
     }
   });
+
+  // 获取目标的siteKey集合
+  const targetSiteKeys = new Set(splitItems.map(item => item.siteKey));
+
+  // 移除不再需要的元素
+  existingElements.forEach((el, siteKey) => {
+    if (!targetSiteKeys.has(siteKey)) {
+      el.remove();
+      existingElements.delete(siteKey);
+    }
+  });
+
+  // 清空空状态提示（如果有）
+  const emptyState = container.querySelector('.empty-state');
+  if (emptyState) {
+    emptyState.remove();
+  }
+
+  // 按顺序重新排列或添加元素
+  splitItems.forEach((item, index) => {
+    let element = existingElements.get(item.siteKey);
+
+    if (!element) {
+      // 创建新元素
+      element = createSplitElement(item);
+      initSplitElement(element, item);
+    }
+
+    // 更新 data-id（因为 splitItem 可能被重新创建）
+    element.dataset.id = item.id;
+
+    // 确保元素在正确的位置
+    const currentChildren = Array.from(container.children);
+    if (currentChildren[index] !== element) {
+      if (index < currentChildren.length) {
+        container.insertBefore(element, currentChildren[index]);
+      } else {
+        container.appendChild(element);
+      }
+    }
+  });
+}
+
+// 创建分屏元素的DOM
+function createSplitElement(item) {
+  const div = document.createElement('div');
+  div.className = 'split-item';
+  div.dataset.id = item.id;
+  div.dataset.site = item.siteKey;
+  div.innerHTML = `
+    <!-- 顶部工具栏 -->
+    <div class="split-toolbar">
+        <div class="toolbar-left">
+            <span class="ai-name" style="--ai-color: ${item.color}">${item.name}</span>
+            <button class="toolbar-btn reload" data-id="${item.id}" title="${i18n('reload', '刷新')}">
+                ${ICONS.refresh}
+            </button>
+        </div>
+        <div class="toolbar-right">
+            <button class="toolbar-btn toggle-input" data-id="${item.id}" title="${i18n('toggleInput', '切换原生输入框')}">
+                ${ICONS.keyboard}
+            </button>
+            <button class="toolbar-btn home" data-id="${item.id}" data-url="${item.url}" title="${i18n('home', '返回首页')}">
+                ${ICONS.home}
+            </button>
+            <button class="toolbar-btn open-new" data-url="${item.url}" title="${i18n('openInNewTab', '在新标签页打开')}">
+                ${ICONS.openNew}
+            </button>
+        </div>
+    </div>
+
+    <div class="split-item-content">
+        <div class="loading-overlay" id="loading-${item.id}">
+            <div class="spinner"></div>
+        </div>
+        <iframe
+            id="iframe-${item.id}"
+            name="${item.siteKey}-iframe"
+            src="${item.url}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            data-site="${item.siteKey}"
+        ></iframe>
+    </div>
+  `;
+  return div;
+}
+
+// 初始化分屏元素的事件监听
+function initSplitElement(element, item) {
+  const id = item.id;
+
+  // 刷新按钮
+  const reloadBtn = element.querySelector('.toolbar-btn.reload');
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', () => reloadSplit(id));
+  }
+
+  // 返回首页按钮
+  const homeBtn = element.querySelector('.toolbar-btn.home');
+  if (homeBtn) {
+    homeBtn.addEventListener('click', () => {
+      const url = homeBtn.dataset.url;
+      const iframe = element.querySelector('iframe');
+      const loader = element.querySelector('.loading-overlay');
+      if (iframe && url) {
+        if (loader) loader.style.display = 'flex';
+        iframe.src = url;
+      }
+    });
+  }
+
+  // 新窗口打开按钮
+  const openNewBtn = element.querySelector('.toolbar-btn.open-new');
+  if (openNewBtn) {
+    openNewBtn.addEventListener('click', () => {
+      const url = openNewBtn.dataset.url;
+      if (url) window.open(url, '_blank');
+    });
+  }
+
+  // 隐藏/显示输入框按钮
+  const toggleInputBtn = element.querySelector('.toolbar-btn.toggle-input');
+  if (toggleInputBtn) {
+    // 初始化状态（默认隐藏）
+    if (hideInputsState[id] === undefined) {
+      hideInputsState[id] = defaultHideInputs; // 默认根据设置隐藏
+    }
+    updateToggleInputBtn(toggleInputBtn, hideInputsState[id]);
+
+    toggleInputBtn.addEventListener('click', () => {
+      const iframe = element.querySelector('iframe');
+      if (!iframe) return;
+
+      // 切换状态
+      hideInputsState[id] = !hideInputsState[id];
+      const shouldHide = hideInputsState[id];
+
+      // 更新按钮图标
+      updateToggleInputBtn(toggleInputBtn, shouldHide);
+
+      // 向iframe发送消息
+      try {
+        iframe.contentWindow.postMessage({
+          type: 'TOGGLE_INPUT_VISIBILITY',
+          data: { hide: shouldHide }
+        }, '*');
+      } catch (e) {
+        console.log('=== 发送隐藏输入框消息失败:', e);
+      }
+    });
+  }
+
+  const iframe = element.querySelector('iframe');
+  const loader = element.querySelector('.loading-overlay');
+
+  if (iframe && loader) {
+    try {
+      if (iframe.contentWindow && iframe.contentWindow.document.readyState === 'complete') {
+        loader.style.display = 'none';
+      }
+    } catch (e) {
+      // Cross-origin, ignore
+    }
+
+    iframe.addEventListener('load', () => {
+      console.log('Iframe loaded:', id);
+      loader.style.display = 'none';
+
+      // Apply initial input visibility state
+      try {
+        iframe.contentWindow.postMessage({
+          type: 'TOGGLE_INPUT_VISIBILITY',
+          data: { hide: hideInputsState[id] }
+        }, '*');
+      } catch (e) {
+        console.log('=== Failed to sync input visibility:', e);
+      }
+    });
+
+    iframe.addEventListener('error', () => {
+      console.error('Iframe error:', id);
+      loader.style.display = 'none';
+    });
+  }
 }
 
 // 更新隐藏/显示输入框按钮的图标
@@ -390,7 +445,17 @@ function reloadSplit(id) {
     const iframe = item.querySelector('iframe');
     const loader = item.querySelector('.loading-overlay');
     if (loader) loader.style.display = 'flex';
-    iframe.src = iframe.src;
+
+    // 通过 postMessage 通知 iframe 内的 content script 执行刷新
+    // 这样可以刷新当前页面（保留对话），而不是跳回首页
+    try {
+      iframe.contentWindow.postMessage({
+        type: 'RELOAD_PAGE'
+      }, '*');
+    } catch (e) {
+      console.log('=== 发送刷新消息失败，回退到 src 重置:', e);
+      iframe.src = iframe.src;
+    }
   }
 }
 

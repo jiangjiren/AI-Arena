@@ -308,12 +308,55 @@ function simulateTyping(element, text, site) {
     // 触发 focus 事件
     element.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
 
+    // 对于 ChatGPT 的 ProseMirror 编辑器，使用特殊方式
+    if (site === 'chatgpt' && element.classList.contains('ProseMirror')) {
+        console.log('=== 使用 ChatGPT ProseMirror 编辑器输入方式');
+
+        // 清空并设置内容（ProseMirror 需要将文本包裹在 p 标签内）
+        // 使用 DOM 操作代替 innerHTML 以防止 HTML 注入和解析错误
+        element.innerHTML = '';
+        const p = document.createElement('p');
+        p.textContent = text;
+        element.appendChild(p);
+
+        // 触发多种事件让 ProseMirror 识别变化
+        element.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+
+        // 触发 compositionend 事件（模拟 IME 输入完成）
+        element.dispatchEvent(new CompositionEvent('compositionend', {
+            bubbles: true,
+            cancelable: true,
+            data: text
+        }));
+
+        // 将光标移到末尾
+        const range = document.createRange();
+        const selection = window.getSelection();
+        const pElement = element.querySelector('p');
+        if (pElement && pElement.firstChild) {
+            range.setStartAfter(pElement.firstChild);
+            range.collapse(true);
+        } else {
+            range.selectNodeContents(element);
+            range.collapse(false);
+        }
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        return;
+    }
+
     // 对于 Gemini 的 Quill 编辑器，使用特殊方式
     if (site === 'gemini' && element.classList.contains('ql-editor')) {
         console.log('=== 使用 Gemini Quill 编辑器输入方式');
 
         // 清空并设置内容
-        element.innerHTML = `<p>${text}</p>`;
+        // 使用 DOM 操作代替 innerHTML 以防止 HTML 注入
+        element.innerHTML = '';
+        const p = document.createElement('p');
+        p.textContent = text;
+        element.appendChild(p);
 
         // 移除 ql-blank 类（表示编辑器不再为空）
         element.classList.remove('ql-blank');
